@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layout>
+	<adminhtml_sales_order_view>
+		<reference name="order_totals">
+            <block type="sagepaysurcharges/adminhtml_surcharge" name="suite_surcharge" />
+        </reference>
+	</adminhtml_sales_order_view>
+	<adminhtml_sales_order_creditmemo_new>
+		<reference name="creditmemo_totals">
+            <block type="sagepaysurcharges/adminhtml_surcharge" name="suite_surcharge" />
+        </reference>
+	</adminhtml_sales_order_creditmemo_new>
+	<adminhtml_sales_order_creditmemo_updateqty>
+		<reference name="creditmemo_totals">
+            <block type="sagepaysurcharges/adminhtml_surcharge" name="suite_surcharge" />
+        </reference>
+	</adminhtml_sales_order_creditmemo_updateqty>
+	<adminhtml_sales_order_invoice_view>
+		<reference name="invoice_totals">
+            <block type="sagepaysurcharges/adminhtml_surcharge" name="suite_surcharge" />
+        </reference>
+	</adminhtml_sales_order_invoice_view>
+</layout>

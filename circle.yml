@@ -1,0 +1,31 @@
+machine:
+  php:
+    version: 7.1.9
+  environment:
+    MARKETPLACE_EQP_VERSION: 1.0.5
+    SNIFFER_VERSION: 2.6.2
+
+dependencies:
+  pre:
+    #- sed -i 's/^;//' ~/.phpenv/versions/$(phpenv global)/etc/conf.d/xdebug.ini
+  override:
+    - wget --no-check-certificate https://files.magerun.net/n98-magerun.phar
+    - chmod +x ./n98-magerun.phar
+    - ./n98-magerun.phar install --dbHost="127.0.0.1" --dbUser="ubuntu" --dbPass="" --dbName="circle_test" --installSampleData=no --useDefaultConfigParams=yes --magentoVersionByName="magento-mirror-1.9.3.6" --installationFolder="magento" --baseUrl="http://127.0.0.1/"
+    - mkdir -p magento/app/code/local/Ebizmarts/
+    - /bin/cp -r app/code/local/Ebizmarts/* magento/app/code/local/Ebizmarts/
+    - /bin/cp -r app/etc/modules/* magento/app/etc/modules/
+    - /bin/cp -r lib/* magento/lib/
+    - /bin/cp -r tests magento/
+    - cd .. && wget https://github.com/magento/marketplace-eqp/archive/$MARKETPLACE_EQP_VERSION.zip
+    - cd .. && wget https://github.com/squizlabs/PHP_CodeSniffer/releases/download/$SNIFFER_VERSION/phpcs.phar && chmod +x phpcs.phar
+    - cd .. && unzip -qq $MARKETPLACE_EQP_VERSION.zip
+    - cd .. && wget https://phar.phpunit.de/phpunit-5.7.phar -O phpunit.phar
+    - cd .. && chmod +x phpunit.phar
+
+test:
+  override:
+    - cd /home/ubuntu/sage-pay-suite-pro/magento/tests/unit && /home/ubuntu/phpunit.phar --coverage-text
+    - rm -rf magento/
+    - /home/ubuntu/phpcs.phar --config-set installed_paths /home/ubuntu/marketplace-eqp-$MARKETPLACE_EQP_VERSION
+    - /home/ubuntu/phpcs.phar -n --standard="MEQP1" /home/ubuntu/sage-pay-suite-pro

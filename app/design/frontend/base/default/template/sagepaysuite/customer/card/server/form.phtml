@@ -1,0 +1,27 @@
+<?php $_code = 'sagepaytoken'; ?>
+<script type="text/javascript">
+
+    function validateNickname() {
+
+        var e = document.getElementById("<?php echo $_code ?>_cc_nickname");
+        var nums = e.value.match(/\d/g);
+
+        if(nums.length > 8) {
+            e.value = "";
+            alert("Cannot add more than 8 numbers to the description");
+        }
+
+    }
+
+    var x = document.getElementById("<?php echo $_code ?>_cc_nickname");
+    x.addEventListener("blur", validateNickname, true);
+
+</script>
+
+</br>
+<label for="<?php echo $_code ?>_cc_nickname"><?php echo $this->__('Credit Card Description') ?></label>
+<div class="input-box">
+    <input type="text" title="<?php echo $this->__('Credit Card Description') ?>" class="input-text" id="<?php echo $_code ?>_cc_nickname" name="Nickname" />
+</div>
+</br>
+<iframe src="<?php echo $this->getNextUrl(); ?>" id="iframeRegCard"></iframe>
